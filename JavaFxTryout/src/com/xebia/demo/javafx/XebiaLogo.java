@@ -36,7 +36,7 @@ public class XebiaLogo extends Parent {
     
     public XebiaLogo(Path path) {
         String imageUrl = XebiaLogo.class.getResource("xebialogo.png").toExternalForm();
-        Image image = image = new Image(imageUrl, 241, 91, true, true, false);
+        Image image = new Image(imageUrl, 241, 91, true, true, false);
         // create content
         imageView = new ImageView();
         imageView.setImage(image);

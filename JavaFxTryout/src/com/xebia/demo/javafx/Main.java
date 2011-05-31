@@ -9,6 +9,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.binding.NumberExpression;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -16,9 +19,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -64,10 +69,10 @@ public class Main extends Application {
                 logo.doSomeTransition();
             }
         });
-
+        
         final Button blurBtn = new Button("Some shadow");
 
-
+        
         final DropShadow dropShadow = new DropShadow();
         dropShadow.setSpread(0.34);
         dropShadow.setOffsetX(8);
@@ -108,6 +113,17 @@ public class Main extends Application {
             }
         });
 
+            Circle circle = new Circle(20,Color.web("white",0.05f));
+            circle.setStrokeType(StrokeType.OUTSIDE);
+            circle.setStroke(Color.web("white",0.2f));
+            circle.setStrokeWidth(4f);
+            circle.centerXProperty().bind(logo.translateXProperty().add(10d));
+            circle.setCenterY(60d);
+            //circle.setCenterX(50d);
+            root.getChildren().add(circle);
+            
+            
+            
         root.getChildren().add(path);
         root.getChildren().add(logo);
         root.getChildren().add(btn);
