@@ -4,14 +4,14 @@
  */
 package com.xebia.demo.javafx;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.NumberBinding;
-import javafx.beans.binding.NumberExpression;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -65,14 +65,23 @@ public class Main extends Application {
         btn.setLayoutY(180);
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
+            @Override
             public void handle(ActionEvent ke) {
+                try {
+                    //UI will freeze, but at least messed up
+                    Thread.sleep(1500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    Thread.currentThread().interrupt();
+                }
+
                 logo.doSomeTransition();
             }
         });
-        
+
         final Button blurBtn = new Button("Some shadow");
 
-        
+
         final DropShadow dropShadow = new DropShadow();
         dropShadow.setSpread(0.34);
         dropShadow.setOffsetX(8);
@@ -86,6 +95,7 @@ public class Main extends Application {
             Timeline timeline = new Timeline();
             KeyFrame keyFrame = null;
 
+            @Override
             public void handle(ActionEvent ke) {
                 timeline.stop();
                 //remove previous
@@ -113,17 +123,17 @@ public class Main extends Application {
             }
         });
 
-            Circle circle = new Circle(20,Color.web("white",0.05f));
-            circle.setStrokeType(StrokeType.OUTSIDE);
-            circle.setStroke(Color.web("white",0.2f));
-            circle.setStrokeWidth(4f);
-            circle.centerXProperty().bind(logo.translateXProperty().add(10d));
-            circle.setCenterY(60d);
-            //circle.setCenterX(50d);
-            root.getChildren().add(circle);
-            
-            
-            
+        Circle circle = new Circle(20, Color.web("white", 0.05f));
+        circle.setStrokeType(StrokeType.OUTSIDE);
+        circle.setStroke(Color.web("white", 0.2f));
+        circle.setStrokeWidth(4f);
+        circle.centerXProperty().bind(logo.translateXProperty().add(10d));
+        circle.setCenterY(60d);
+        //circle.setCenterX(50d);
+        root.getChildren().add(circle);
+
+
+
         root.getChildren().add(path);
         root.getChildren().add(logo);
         root.getChildren().add(btn);
